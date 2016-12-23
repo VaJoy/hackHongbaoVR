@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            margin-top: -1500px;
+            position: relative;
+            overflow: hidden;
+            background: #EEE;
+            width: 1440px;
+            height: 2110px;
+        }
+
+        #bg, #mask-bg {
+            position: absolute;
+            width: 1440px;
+            height: 2560px;
+            background-size: cover;
+        }
+        #mask-bg{
+            top:9px;
+            mask-image: url(mask.png);
+            -webkit-mask-image: url(mask.png);
+        }
+        input {
+            height: 60px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <p id="bg"></p>
+    <p id="mask-bg"></p>
+</div>
+<input type="file">
+
+<script>
+    var input = document.querySelector('input'),
+        bg = document.querySelector('#bg'),
+        maskBg = document.querySelector('#mask-bg');
+
+    input.onchange = function () {
+        var src = getObjectURL(this.files[0]);
+        setBg(src);
+
+    };
+
+    function setBg(src){
+        bg.style.backgroundImage = 'url(' + src + ')';
+        maskBg.style.backgroundImage = 'url(' + src + ')';
+    }
+
+    /**
+     * 通过选择的文件获取其图片路径（blob）
+     * @param file
+     * @returns {*}
+     */
+    function getObjectURL(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) {
+            url = window.createObjectURL(file)
+        } else if (window.URL != undefined) {
+            url = window.URL.createObjectURL(file)
+        } else if (window.webkitURL != undefined) {
+            url = window.webkitURL.createObjectURL(file)
+        }
+        return url
+    }
+
+</script>
+</body>
+</html>
